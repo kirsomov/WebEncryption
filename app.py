@@ -18,7 +18,7 @@ def get():
 
 
 @app.route('/', methods=['POST'])
-def load_information_and_render():
+def load_information():
     """Обрабатывает информоцию из полей, вычисляет выходной текст. Рендерит страницу"""
     input_format = request.form.get('input_format')
     output_format = request.form.get('output_format')
@@ -45,9 +45,9 @@ def upload_file():
         return redirect(request.url)
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    path_to_file = UPLOAD_FOLDER+'/'+file.filename
-    with open(path_to_file) as input_f:
-        input_text = input_f.read()
+    path_to_file = os.path.join(UPLOAD_FOLDER, file.filename)
+    with open(path_to_file) as input_file:
+        input_text = input_file.read()
     view.set_input_text(input_text)
     return redirect('/')
 
@@ -55,8 +55,8 @@ def upload_file():
 @app.route('/output_file', methods=['POST'])
 def get_output_file():
     """Отображает выходной файл. Переход на другую страницу."""
-    with open('output_file.txt', 'w') as output_f:
-        output_f.write(view.get_output_text())
+    with open('output_file.txt', 'w') as output_file:
+        output_file.write(view.get_output_text())
     return send_file('output_file.txt')
 
 

@@ -4,11 +4,11 @@ from encryptor import encrypt
 
 class View:
     _TEMPLATE_PATH = "encryption.html"
-    _MODES = [{'name': 'hack'}, {'name': 'encode'}, {'name': 'decode'}]
-    _CIPHERS = [{'name': 'caesar'}, {'name': 'vigenere'}]
-    _FORMATS = [{'name': 'file'}, {'name': 'text'}]
+    _MODES = ['hack', 'encode', 'decode']
+    _CIPHERS = ['caesar', 'vigenere']
+    _FORMATS = ['file', 'text']
 
-    def __init__(self, input_format=None, output_format=None, cipher='caesar', mode='encode', input_text='', key=0):
+    def __init__(self, input_format=None, output_format=None, cipher='caesar', mode='encode', input_text='', key='0'):
         self._input_format = input_format
         self._output_format = output_format
         self._cipher = cipher
@@ -28,7 +28,12 @@ class View:
         self._cipher = cipher
         self._mode = mode
         self._input_text = input_text
-        self._key = key
+        if key:
+            self._key = key
+        elif cipher == 'caesar':
+            self._key = '0'
+        else:
+            self._key = 'a'
 
     def get_input_format(self):
         return self._input_formaat
@@ -41,9 +46,7 @@ class View:
 
     def get_output_text(self):
         """Вычисляет выходной текст, если вернулся None, делает текст пустым"""
-        self._output_text = str(encrypt(self._cipher, self._mode, self._input_text, self._key))
-        if self._output_text is None:
-            self._output_text = ''
+        self._output_text = encrypt(self._cipher, self._mode, self._input_text, self._key)
         return self._output_text
 
     def render_view(self):

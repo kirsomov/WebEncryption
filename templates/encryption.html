@@ -9,35 +9,36 @@
             <span class="input-group-addon">Input format</span>
               <select name="input_format" class="selectpicker form-control">
                 {% for input_format in input_formats %}
-                <option value="{{ input_format.name }}" {% if _input_format == input_format.name %} selected {% endif %}>{{ input_format.name }}</option>
+                <option value="{{ input_format }}" {% if _input_format == input_format %} selected {% endif %}>{{ input_format }}</option>
                 {% endfor %}  
               </select>
               <br>
               <span class="input-group-addon">Output format</span>
               <select name="output_format" class="selectpicker form-control">
                 {% for output_format in output_formats %}
-                <option value="{{ output_format.name }}" {% if _output_format == output_format.name %} selected {% endif %}>{{ output_format.name }}</option>
+                <option value="{{ output_format }}" {% if _output_format == output_format %} selected {% endif %}>{{ output_format }}</option>
                 {% endfor %}
               </select>
               <br>
-                {% if _input_format %}
+              {% if _input_format != None %}
+              <button type="submit">Change format</button>
+              {% endif %}
+              <br>
                 <select name="cipher" class="selectpicker form-control">
                   {% for cipher in ciphers %}
-                  <option value="{{ cipher.name }}" {% if _cipher == cipher.name %} selected {% endif %}>{{ cipher.name }}</option>
+                  <option value="{{ cipher }}" {% if _cipher == cipher %} selected {% endif %}>{{ cipher }}</option>
                   {% endfor %}
                 </select>
                 <select name="mode" class="selectpicker form-control">
                   {% for mode in modes %}
-                  <option value="{{ mode.name }}" {% if _mode == mode.name %} selected {% endif %}>{{ mode.name }}</option>
+                  <option value="{{ mode }}" {% if _mode == mode %} selected {% endif %}>{{ mode }}</option>
                   {% endfor %}
                 </select>
-                {% endif %}
         <form enctype="multipart/form-data">
-          {% if _input_format %}
+          {% if _input_format != None and _mode != 'hack' %}
           <p><strong>Ключ</strong></p>
-          <p><input name='key' maxlength="25" size="40" value={{key}}></p>
+          <p><input name='key' maxlength="25" size="40" value={{_key}}></p>
           {% endif %}
-
           {% if _input_format == 'text' %}
           <p><strong>Input text</strong></p>
           <p><textarea rows="10" cols="45" name="input_text">{% if input_text %}{{input_text}}{% endif %}</textarea></p>
