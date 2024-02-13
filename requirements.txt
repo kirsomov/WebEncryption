@@ -16,5 +16,5 @@ pyparsing==2.4.7
 pytest==5.4.2
 six==1.14.0
 wcwidth==0.1.9
-Werkzeug==1.0.1
+Werkzeug==2.3.8
 WTForms==2.3.1
